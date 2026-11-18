@@ -1,0 +1,1108 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#122e44">
+  <title>Human Bingo | Get to Know Your Colleagues</title>
+
+  <style>
+    :root {
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system,
+        Segoe UI, Arial, sans-serif;
+      color: #18334b;
+      background: #f3f7f9;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+    }
+
+    .hero {
+      background: linear-gradient(125deg, #0e3049, #136a78);
+      color: white;
+      padding: 24px 18px 36px;
+    }
+
+    .wrap {
+      max-width: 950px;
+      margin: auto;
+    }
+
+    .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .eyebrow {
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.15em;
+      color: #9be8dc;
+    }
+
+    .hero h1 {
+      font-size: clamp(30px, 5vw, 48px);
+      margin: 16px 0 4px;
+      letter-spacing: -0.04em;
+    }
+
+    .hero p {
+      margin: 0;
+      color: #d5ecf0;
+    }
+
+    .tag {
+      background: #ffffff20;
+      border: 1px solid #ffffff45;
+      padding: 8px 11px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .shell {
+      max-width: 950px;
+      margin: -22px auto 45px;
+      padding: 0 14px;
+    }
+
+    .panel {
+      background: white;
+      border: 1px solid #e3ebf0;
+      border-radius: 19px;
+      box-shadow: 0 12px 30px #18334b12;
+      padding: clamp(12px, 3vw, 25px);
+    }
+
+    .controls {
+      display: flex;
+      gap: 10px;
+      align-items: end;
+      flex-wrap: wrap;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex: 1;
+      min-width: 180px;
+    }
+
+    .field label {
+      font-size: 12px;
+      font-weight: 800;
+      color: #587083;
+    }
+
+    input,
+    select {
+      font: inherit;
+      border: 1px solid #cddce3;
+      border-radius: 10px;
+      padding: 12px;
+      background: white;
+      color: #18334b;
+      width: 100%;
+      min-width: 0;
+    }
+
+    input:focus,
+    select:focus {
+      outline: 3px solid #a5e8dc;
+      border-color: #198a85;
+    }
+
+    .btn {
+      border: 0;
+      border-radius: 10px;
+      padding: 12px 16px;
+      font: inherit;
+      font-weight: 800;
+      cursor: pointer;
+      background: #146d75;
+      color: white;
+    }
+
+    .btn.secondary {
+      background: #eaf2f5;
+      color: #25475a;
+    }
+
+    .btn:focus-visible,
+    .tile:focus-visible {
+      outline: 3px solid #f2ac50;
+      outline-offset: 2px;
+    }
+
+    .status {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      margin: 22px 0 14px;
+    }
+
+    .cardtitle {
+      font-size: 24px;
+      font-weight: 850;
+      letter-spacing: -0.03em;
+    }
+
+    .sub {
+      color: #6b8190;
+      font-size: 13px;
+    }
+
+    .pills {
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+    }
+
+    .pill {
+      background: #eaf4f5;
+      color: #125a66;
+      border-radius: 12px;
+      padding: 9px 12px;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .progress {
+      height: 9px;
+      background: #e7eff2;
+      border-radius: 999px;
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+
+    .bar {
+      height: 100%;
+      background: linear-gradient(90deg, #13a38b, #1b718d);
+      width: 0%;
+      transition: width 0.2s;
+    }
+
+    .board {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 6px;
+    }
+
+    .tile {
+      position: relative;
+      border: 1.5px solid #d8e5e9;
+      background: #f8fbfc;
+      border-radius: 11px;
+      min-height: 116px;
+      padding: 9px 5px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      cursor: pointer;
+      color: #1c394b;
+      text-align: center;
+      font: inherit;
+      overflow-wrap: anywhere;
+    }
+
+    .prompt {
+      font-size: clamp(9px, 1.65vw, 13px);
+      line-height: 1.32;
+      font-weight: 650;
+    }
+
+    .person {
+      font-size: clamp(9px, 1.5vw, 12px);
+      font-weight: 850;
+      color: #08765e;
+      background: #e0f5ed;
+      padding: 4px 5px;
+      border-radius: 6px;
+      max-width: 100%;
+      overflow-wrap: anywhere;
+    }
+
+    .tile.done {
+      background: #e8f7f1;
+      border-color: #62c5a5;
+    }
+
+    .tile.win {
+      background: #c7f1df;
+      border: 2px solid #13936d;
+    }
+
+    .tile.free {
+      background: #e5f1fa;
+      border-color: #8cbedb;
+      justify-content: center;
+    }
+
+    .tile.free .prompt {
+      font-weight: 900;
+      color: #17648a;
+    }
+
+    .check {
+      position: absolute;
+      top: 3px;
+      right: 5px;
+      color: #098260;
+      font-weight: 900;
+      font-size: 12px;
+    }
+
+    .rules {
+      background: #f0f7f8;
+      padding: 14px;
+      border-radius: 12px;
+      margin-top: 17px;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .rules strong {
+      color: #0d5764;
+    }
+
+    .footer {
+      display: flex;
+      gap: 10px;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+
+    .muted {
+      font-size: 12px;
+      color: #718391;
+    }
+
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: #082b3bc7;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      z-index: 5;
+    }
+
+    .overlay.show {
+      display: flex;
+    }
+
+    .dialog {
+      background: white;
+      border-radius: 20px;
+      max-width: 440px;
+      width: 100%;
+      padding: 24px;
+      box-shadow: 0 20px 70px #0004;
+    }
+
+    .dialog h2 {
+      margin: 0 0 9px;
+    }
+
+    .dialog .question {
+      background: #edf5f6;
+      padding: 13px;
+      border-radius: 10px;
+      font-weight: 700;
+      margin: 14px 0;
+    }
+
+    .error {
+      color: #a72d35;
+      font-size: 13px;
+      min-height: 19px;
+      margin: 8px 0;
+    }
+
+    .actions {
+      display: flex;
+      gap: 9px;
+      justify-content: flex-end;
+      margin-top: 12px;
+    }
+
+    .winner {
+      text-align: center;
+    }
+
+    .trophy {
+      font-size: 64px;
+    }
+
+    .winner h2 {
+      font-size: 34px;
+      color: #0b7b66;
+    }
+
+    .winner .btn {
+      margin-top: 12px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    @media (max-width: 600px) {
+      .hero {
+        padding: 19px 14px 36px;
+      }
+
+      .panel {
+        padding: 11px;
+      }
+
+      .board {
+        gap: 4px;
+      }
+
+      .tile {
+        min-height: 108px;
+        border-radius: 7px;
+        padding: 6px 2px;
+      }
+
+      .prompt {
+        font-size: clamp(9px, 2.2vw, 12px);
+      }
+
+      .person {
+        font-size: clamp(8px, 2vw, 11px);
+      }
+
+      .check {
+        font-size: 9px;
+      }
+
+      .tag {
+        font-size: 10px;
+      }
+
+      .status {
+        margin-top: 17px;
+      }
+
+      .cardtitle {
+        font-size: 21px;
+      }
+
+      .btn {
+        padding: 11px 13px;
+      }
+    }
+
+    @media print {
+      .hero,
+      .controls,
+      .footer,
+      .rules,
+      .overlay {
+        display: none !important;
+      }
+
+      .shell {
+        margin: 0;
+      }
+
+      .panel {
+        border: 0;
+        box-shadow: none;
+      }
+
+      .tile {
+        min-height: 105px;
+      }
+
+      .board {
+        gap: 5px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="hero">
+    <div class="wrap">
+      <div class="top">
+        <span class="eyebrow">TEAM CONNECTION GAME</span>
+        <span class="tag">3 LINES TO WIN</span>
+      </div>
+
+      <h1>Human Bingo ✨</h1>
+      <p>Meet colleagues. Discover surprises. Make connections.</p>
+    </div>
+  </header>
+
+  <main class="shell">
+    <section class="panel">
+
+      <div class="controls">
+        <div class="field">
+          <label for="player">YOUR NAME (OPTIONAL)</label>
+          <input
+            id="player"
+            maxlength="70"
+            placeholder="Enter your name"
+          >
+        </div>
+
+        <div class="field">
+          <label for="card">YOUR BINGO CARD</label>
+          <select id="card">
+            <option value="0">Card 1 · Get to Know Me!</option>
+            <option value="1">Card 2 · Beyond the Everyday</option>
+            <option value="2">Card 3 · Fun, Facts & Surprises</option>
+          </select>
+        </div>
+
+        <button class="btn secondary" id="random">
+          🎲 Shuffle Card
+        </button>
+      </div>
+
+      <div class="status">
+        <div>
+          <div class="sub" id="cardnum">BINGO · CARD 1</div>
+          <div class="cardtitle" id="title">Get to Know Me!</div>
+          <div class="sub">
+            Tap a square and enter a colleague's name.
+          </div>
+        </div>
+
+        <div class="pills">
+          <span class="pill" id="squares">1 / 25 squares</span>
+          <span class="pill" id="lines">0 / 3 lines</span>
+        </div>
+      </div>
+
+      <div class="progress">
+        <div class="bar" id="bar"></div>
+      </div>
+
+      <div
+        class="board"
+        id="board"
+        aria-label="5 by 5 bingo card"
+      ></div>
+
+      <div class="rules">
+        <strong>HOW TO PLAY</strong>
+        <div>
+          Find colleagues who match the descriptions.
+          Enter their names in the squares.
+          Each colleague may appear in
+          <strong>up to 2 squares</strong>
+          on your card.
+          The centre is a FREE SPACE.
+          Complete <strong>any 3 full lines</strong>
+          — rows, columns or diagonals — to win.
+          Shout <strong>BINGO!</strong>
+        </div>
+      </div>
+
+      <div class="footer">
+        <span class="muted">
+          Your entries are saved on this device only.
+          No login needed.
+        </span>
+
+        <div>
+          <button class="btn secondary" id="print">
+            Print / Save PDF
+          </button>
+
+          <button class="btn secondary" id="reset">
+            Reset card
+          </button>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <!-- Name Entry Dialog -->
+
+  <div
+    class="overlay"
+    id="entryOverlay"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="entryTitle"
+  >
+    <div class="dialog">
+      <h2 id="entryTitle">Complete this square</h2>
+
+      <div class="question" id="question"></div>
+
+      <label for="colleague">
+        <strong>Colleague's name</strong>
+      </label>
+
+      <input
+        id="colleague"
+        maxlength="80"
+        placeholder="Type a colleague's name"
+        autocomplete="off"
+      >
+
+      <div class="error" id="error" role="alert"></div>
+
+      <div class="actions">
+        <button class="btn secondary" id="remove">
+          Clear
+        </button>
+
+        <button class="btn secondary" id="cancel">
+          Cancel
+        </button>
+
+        <button class="btn" id="save">
+          Save name
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Winning Dialog -->
+
+  <div
+    class="overlay"
+    id="winOverlay"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="winTitle"
+  >
+    <div class="dialog winner">
+      <div class="trophy">🏆🎉</div>
+
+      <h2 id="winTitle">BINGO!</h2>
+
+      <p id="winText">
+        Congratulations! You've completed 3 lines.
+      </p>
+
+      <p class="sub">
+        Show your card to the organiser to verify your win.
+      </p>
+
+      <button class="btn" id="closeWin">
+        View my completed card
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // ==========================================
+    // BINGO CARD CONFIGURATION
+    // ==========================================
+
+    const CARDS = [
+      [
+        "Has travelled to more than 10 countries",
+        "Loves spicy food",
+        "Can play a musical instrument",
+        "Is a night owl",
+        "Has taken a photo with a celebrity",
+        "Prefers alcohol over water",
+        "Has 2 different pets",
+        "Has gone on a solo trip for at least 5 times",
+        "Loves karaoke",
+        "Has tried diving",
+        "Can speak 3 or more languages",
+        "Has queued for over an hour for food",
+        "FREE SPACE",
+        "Loves watching C-dramas",
+        "Has a hidden talent",
+        "Has run a marathon",
+        "Enjoys baking",
+        "Has gotten lost overseas",
+        "Loves horror movies",
+        "Has won a lucky draw",
+        "Can cook a signature dish",
+        "Has appeared on TV",
+        "Enjoy board games",
+        "Has seen snow",
+        "Has an unusual hobby"
+      ],
+
+      [
+        "Has been on a cruise",
+        "Cannot live without coffee",
+        "Enjoys hiking",
+        "Has a funny nickname",
+        "Loves Black Sesame Milk Tea",
+        "Has travelled alone overseas for at least 3 times",
+        "Can bake a cake",
+        "Is a morning person",
+        "Has performed on stage",
+        "Loves online shopping",
+        "Has visited Japan",
+        "Likes coriander",
+        "FREE SPACE",
+        "Has a collection of figurines",
+        "Enjoys photography",
+        "Has missed a flight",
+        "Loves hotpot",
+        "Has tried skiing",
+        "Has binge-watched a series in one day",
+        "Can solve a Rubik's Cube",
+        "Prefers mountains over beaches",
+        "Has sent a message to the wrong person",
+        "Loves singing in the shower",
+        "Loves durian",
+        "Has tried making sushi"
+      ],
+
+      [
+        "Has seen the Northern Lights",
+        "Loves durian",
+        "Can dance well",
+        "Has fallen asleep on public transport",
+        "Prefers cats over dogs",
+        "Has gone camping",
+        "Loves desserts",
+        "Has an unusual fear",
+        "Enjoys cycling",
+        "Has won a competition",
+        "Has visited Europe",
+        "Loves watching sunsets",
+        "FREE SPACE",
+        "Has tried bungee jumping",
+        "Prefers Deadpool over Ironman",
+        "Can do a magic trick",
+        "Enjoys cooking",
+        "Has taken a spontaneous trip",
+        "Has laughed until they cried",
+        "Loves theme parks",
+        "Has worn a costume to a party",
+        "Enjoys gardening",
+        "Has taken a funny selfie",
+        "Has tried an unusual food",
+        "Has a secret talent"
+      ]
+    ];
+
+    const TITLES = [
+      "Get to Know Me!",
+      "Beyond the Everyday",
+      "Fun, Facts & Surprises"
+    ];
+
+    const KEY = "human-bingo-23nov-v1";
+
+    const $ = id => document.getElementById(id);
+
+    // ==========================================
+    // WINNING LINE CONFIGURATION
+    // ==========================================
+
+    const LINES = [];
+
+    // Five horizontal lines
+    for (let r = 0; r < 5; r++) {
+      LINES.push(
+        Array.from({ length: 5 }, (_, c) => r * 5 + c)
+      );
+    }
+
+    // Five vertical lines
+    for (let c = 0; c < 5; c++) {
+      LINES.push(
+        Array.from({ length: 5 }, (_, r) => r * 5 + c)
+      );
+    }
+
+    // Two diagonal lines
+    LINES.push(
+      [0, 6, 12, 18, 24],
+      [4, 8, 12, 16, 20]
+    );
+
+    // ==========================================
+    // LOCAL STORAGE AND INITIAL STATE
+    // ==========================================
+
+    let state;
+
+    try {
+      state = JSON.parse(localStorage.getItem(KEY));
+    } catch (e) {
+      // Use default state if stored data cannot be read.
+    }
+
+    if (
+      !state ||
+      !Array.isArray(state.entries) ||
+      state.entries.length !== 3
+    ) {
+      state = {
+        card: Math.floor(Math.random() * 3),
+        player: "",
+        entries: Array.from(
+          { length: 3 },
+          () => Array(25).fill("")
+        ),
+        won: [false, false, false]
+      };
+    }
+
+    for (let i = 0; i < 3; i++) {
+      if (
+        !Array.isArray(state.entries[i]) ||
+        state.entries[i].length !== 25
+      ) {
+        state.entries[i] = Array(25).fill("");
+      }
+    }
+
+    if (!Array.isArray(state.won)) {
+      state.won = [false, false, false];
+    }
+
+    let selected = -1;
+
+    function persist() {
+      try {
+        localStorage.setItem(KEY, JSON.stringify(state));
+      } catch (e) {
+        // Continue without persistence if storage is unavailable.
+      }
+    }
+
+    function norm(s) {
+      return s
+        .trim()
+        .replace(/\s+/g, " ")
+        .toLocaleLowerCase();
+    }
+
+    // ==========================================
+    // BINGO COMPLETION LOGIC
+    // ==========================================
+
+    function complete(i) {
+      return (
+        i === 12 ||
+        !!state.entries[state.card][i].trim()
+      );
+    }
+
+    function winLines() {
+      return LINES.filter(
+        line => line.every(complete)
+      );
+    }
+
+    // ==========================================
+    // RENDER BINGO BOARD
+    // ==========================================
+
+    function render() {
+      const k = state.card;
+      const arr = state.entries[k];
+      const wins = winLines();
+
+      $("card").value = String(k);
+      $("player").value = state.player;
+
+      $("cardnum").textContent =
+        "BINGO · CARD " + (k + 1);
+
+      $("title").textContent = TITLES[k];
+
+      $("squares").textContent =
+        (arr.filter(x => x.trim()).length + 1) +
+        " / 25 squares";
+
+      $("lines").textContent =
+        Math.min(wins.length, 3) +
+        " / 3 lines";
+
+      $("bar").style.width =
+        Math.min(wins.length / 3, 1) * 100 + "%";
+
+      const winning = new Set(wins.flat());
+      const board = $("board");
+
+      board.replaceChildren();
+
+      CARDS[k].forEach((q, i) => {
+        const b = document.createElement("button");
+
+        b.type = "button";
+
+        b.className =
+          "tile" +
+          (complete(i) ? " done" : "") +
+          (i === 12 ? " free" : "") +
+          (winning.has(i) ? " win" : "");
+
+        b.setAttribute(
+          "aria-label",
+          q + (arr[i] ? ", " + arr[i] : "")
+        );
+
+        const p = document.createElement("span");
+        p.className = "prompt";
+        p.textContent = q;
+
+        b.append(p);
+
+        if (i !== 12) {
+          if (arr[i].trim()) {
+            const name = document.createElement("span");
+
+            name.className = "person";
+            name.textContent = arr[i];
+
+            b.append(name);
+
+            const check = document.createElement("span");
+
+            check.className = "check";
+            check.textContent = "✓";
+
+            b.append(check);
+          } else {
+            const hint = document.createElement("span");
+
+            hint.className = "sub";
+            hint.textContent = "+ Name";
+
+            b.append(hint);
+          }
+
+          b.addEventListener("click", () => edit(i));
+        } else {
+          b.disabled = true;
+        }
+
+        board.append(b);
+      });
+
+      persist();
+
+      // Display winning notification.
+      if (wins.length >= 3 && !state.won[k]) {
+        state.won[k] = true;
+        persist();
+
+        $("winText").textContent =
+          (
+            state.player.trim()
+              ? state.player.trim() + ", congratulations!"
+              : "Congratulations!"
+          ) +
+          " You completed " +
+          wins.length +
+          " winning lines.";
+
+        $("winOverlay").classList.add("show");
+      }
+    }
+
+    // ==========================================
+    // NAME ENTRY FUNCTIONS
+    // ==========================================
+
+    function edit(i) {
+      selected = i;
+
+      $("question").textContent =
+        CARDS[state.card][i];
+
+      $("colleague").value =
+        state.entries[state.card][i];
+
+      $("error").textContent = "";
+
+      $("entryOverlay").classList.add("show");
+
+      setTimeout(
+        () => $("colleague").focus(),
+        0
+      );
+    }
+
+    function closeEntry() {
+      $("entryOverlay").classList.remove("show");
+      selected = -1;
+    }
+
+    function save() {
+      if (selected < 0) {
+        return;
+      }
+
+      const value = $("colleague")
+        .value
+        .trim()
+        .replace(/\s+/g, " ");
+
+      if (!value) {
+        $("error").textContent =
+          "Please enter a colleague’s name to complete this square.";
+        return;
+      }
+
+      // Each colleague can appear in a maximum
+      // of two squares on the current card.
+      const count = state.entries[state.card].filter(
+        (s, i) =>
+          i !== selected &&
+          norm(s) === norm(value)
+      ).length;
+
+      if (count >= 2) {
+        $("error").textContent =
+          "This colleague already appears in 2 other squares. " +
+          "Please find someone else.";
+        return;
+      }
+
+      state.entries[state.card][selected] = value;
+
+      closeEntry();
+      render();
+    }
+
+    // ==========================================
+    // NAME ENTRY EVENT LISTENERS
+    // ==========================================
+
+    $("save").addEventListener("click", save);
+
+    $("colleague").addEventListener("keydown", e => {
+      if (e.key === "Enter") {
+        save();
+      }
+
+      if (e.key === "Escape") {
+        closeEntry();
+      }
+    });
+
+    $("cancel").addEventListener(
+      "click",
+      closeEntry
+    );
+
+    $("remove").addEventListener("click", () => {
+      if (selected < 0) {
+        return;
+      }
+
+      state.entries[state.card][selected] = "";
+      state.won[state.card] = false;
+
+      closeEntry();
+      render();
+    });
+
+    // ==========================================
+    // CARD SELECTION
+    // ==========================================
+
+    $("card").addEventListener("change", e => {
+      state.card = Number(e.target.value);
+      render();
+    });
+
+    // ==========================================
+    // SHUFFLE CARD
+    // Always select a different card.
+    // ==========================================
+
+    $("random").addEventListener("click", () => {
+      const otherCards = [0, 1, 2].filter(
+        card => card !== state.card
+      );
+
+      state.card = otherCards[
+        Math.floor(Math.random() * otherCards.length)
+      ];
+
+      render();
+    });
+
+    // ==========================================
+    // PLAYER NAME
+    // ==========================================
+
+    $("player").addEventListener("input", e => {
+      state.player = e.target.value;
+      persist();
+    });
+
+    // ==========================================
+    // RESET CURRENT CARD
+    // ==========================================
+
+    $("reset").addEventListener("click", () => {
+      if (
+        confirm(
+          "Clear all names on this card? This cannot be undone."
+        )
+      ) {
+        state.entries[state.card] =
+          Array(25).fill("");
+
+        state.won[state.card] = false;
+
+        render();
+      }
+    });
+
+    // ==========================================
+    // PRINT AND SAVE AS PDF
+    // ==========================================
+
+    $("print").addEventListener("click", () => {
+      window.print();
+    });
+
+    // ==========================================
+    // CLOSE WINNING DIALOG
+    // ==========================================
+
+    $("closeWin").addEventListener("click", () => {
+      $("winOverlay").classList.remove("show");
+    });
+
+    // Close name dialog when clicking outside.
+    $("entryOverlay").addEventListener("click", e => {
+      if (e.target === $("entryOverlay")) {
+        closeEntry();
+      }
+    });
+
+    // ==========================================
+    // INITIALISE APPLICATION
+    // ==========================================
+
+    render();
+  </script>
+
+</body>
+</html>
